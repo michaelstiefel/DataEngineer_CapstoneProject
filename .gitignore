@@ -1,6 +1,9 @@
 # Configuration
 capstone_project.cfg
 
+# Data
+./ECB_Tweets
+
 # Byte-compiled / optimized / DLL files
 __pycache__/
 *.py[cod]
