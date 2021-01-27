@@ -1,5 +1,12 @@
 # Configuration
 capstone_project.cfg
+exercise_str_splits.py
+upload_tweets_to_s3.py
+s3_connect.py
+sns_message_s3_upload.py
+ECB_Tweets/
+.gitignore
+
 
 # Data
 ./ECB_Tweets
