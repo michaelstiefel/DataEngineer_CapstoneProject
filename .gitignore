@@ -6,6 +6,8 @@ s3_connect.py
 sns_message_s3_upload.py
 ECB_Tweets/
 .gitignore
+etl_python_interactive.ipynb
+etl_python.py
 
 
 # Data
