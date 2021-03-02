@@ -10,8 +10,11 @@ Another data input source are monetary events. To this end, another data set is 
 
 There are two main data sources: An S3 bucket containing up to date raw json files
 with tweets from the Twitter API, and a file containing all monetary events. The code to generate those monetary events is in this repositry as well, so that events
-can always be updated again. 
+can always be updated again.
 
 ## Overview of files
 
 ## How to use this repository
+
+1. Add AWS access keys and secrets as well as the bucket information and e-mail to
+the .cfg file
