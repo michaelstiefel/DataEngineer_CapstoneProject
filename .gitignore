@@ -8,6 +8,16 @@ ECB_Tweets/
 .gitignore
 etl_python_interactive.ipynb
 etl_python.py
+WorkWithParquet.py
+ecb_decision_dates.csv
+ecb_event_data.csv
+move_to_another_s3_bucket.py
+read_monetary_policy_decisions.py
+term_frequency.py
+test_with_different_bucket.py
+time_series_plot.py
+tweet_time_series.png
+
 
 
 # Data
