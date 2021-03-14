@@ -18,3 +18,5 @@ can always be updated again.
 
 1. Add AWS access keys and secrets as well as the bucket information and e-mail to
 the .cfg file
+2. Run read_monetary_policy_decisions.py locally to scrape dates for the monetary policy
+decision dates from the ecb website

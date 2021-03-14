@@ -37,6 +37,6 @@ soup = BeautifulSoup(driver.page_source, 'html.parser')
 mydivs = soup.find_all("div", {"class": "date"})
 list_of_dates = [row.text for row in mydivs]
 
-df = pd.DataFrame({'date': list_of_dates, 'Type': 'Monetary Policy Decision'})
+df = pd.DataFrame({'date': list_of_dates, 'type': 'Monetary Policy Decision'})
 df.date = pd.to_datetime(df.date)
 df.to_csv("ecb_decision_dates.csv", index = False)

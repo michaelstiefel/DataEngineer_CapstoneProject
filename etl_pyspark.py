@@ -2,6 +2,7 @@ import configparser
 from datetime import datetime
 import os
 from pyspark.sql import SparkSession
+from pyspark.sql.functions import col
 from pyspark.sql.types import *
 
 
@@ -36,7 +37,8 @@ def create_spark_session():
 def process_tweets(spark, input_data, output_data):
     """
        This function takes a spark session object, and pathes to input and output data.
-       It then retrieves the song data from the inputs and builds dimension tables
+       It then retrieves the tweet data from the input s3 bucket and builds
+       intermediary dimension tables
        which are stored as parquet files on AWS S3.
        Input:
        - spark: spark-session object
@@ -44,7 +46,7 @@ def process_tweets(spark, input_data, output_data):
        - output_data: path to store data
     """
 
-
+    # Avoid schema while reading input for now 
     #tweet_schema = StructType([
     #StructField("user.id", IntegerType(), False),
     #StructField("user.created_at", StringType(), False), #"DateType"
@@ -79,7 +81,7 @@ def process_tweets(spark, input_data, output_data):
     #StructField("lang", StringType(), True),
 
     #StructField("text", StringType(), False),
-    #StructField("extended_tweet.full_text", StringType(), True),
+    #StructField("extended_tweet.full_text", StringType(), True)
     #])
 
     tweet_file = os.path.join(input_data + "/*.json")
@@ -141,8 +143,8 @@ def process_tweets(spark, input_data, output_data):
 def process_events(spark, input_data, output_data):
     """
        This function takes a spark session object, and pathes to input and output data.
-       It then retrieves the song data from the inputs and builds dimension tables
-       which are stored as parquet files on AWS S3.
+       It then retrieves the events data from the input s3 bucket and builds
+       a parquet event table stored on AWS S3.
        Input:
        - spark: spark-session object
        - input_data: path to input data
@@ -159,8 +161,8 @@ def process_events(spark, input_data, output_data):
 def main():
     """
        This is the main function which defines the pathes to input and output datasets
-       and calls the function to create the spark session and to process the songs
-       and log data created above.
+       and calls the function to create the spark session and to process the tweet
+       and and events data created above.
     """
     spark = create_spark_session()
     input_data = "s3a://" + S3_BUCKET_INPUT
@@ -169,7 +171,7 @@ def main():
 
 
     process_tweets(spark, input_data, output_data)
-    #process_events(spark, input_data_events, output_data)
+    process_events(spark, input_data_events, output_data)
 
 
 if __name__ == "__main__":
