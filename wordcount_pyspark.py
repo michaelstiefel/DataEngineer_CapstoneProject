@@ -4,6 +4,10 @@ from pyspark.sql import SparkSession
 import pyspark.sql.functions as F
 from nltk.corpus import stopwords
 import string
+import sys
+#from importlib import reload
+#reload(sys)
+#sys.setdefaultencoding('utf-8')
 
 
 config = configparser.ConfigParser()
@@ -18,9 +22,12 @@ os.environ['AWS_SECRET_ACCESS_KEY']=config['AWS']['AWS_SECRET_ACCESS_KEY']
 
 
 punct = list(string.punctuation)
-stopword_list = stopwords.words('english') + punct + ['rt', 'via', '…', 'ecb', 'lagarde', '’', '@lagarde', '@ecb',
-    'central', 'bank', '1x', '@easycopbots', '@easycopbots:', 'european', 'euro', 'christine', 'digital', '#ecb', 'president', 'bitcoin',
-    '#bitcoin', 'today', 'says', '💥', 'easycop', 'us', 'users', '&amp;', 'ecb\'s', 'new']
+stopword_list = stopwords.words('english') + punct
+    #+ ['rt', 'via', 'ecb', 'lagarde',
+    #'@lagarde', '@ecb',
+    #'central', 'bank', '1x', '@easycopbots', '@easycopbots:', 'european', 'euro', 'christine', 'digital', '#ecb', 'president', 'bitcoin',
+    #'#bitcoin', 'today', 'says',
+    #'easycop', 'us', 'users', '&amp;', 'ecb\'s', 'new']
 
 
 
@@ -38,6 +45,7 @@ def count_words(spark, input_data, output_data, stopwords = stopword_list):
     split_rdd_clean = split_rdd_clean.map(lambda x: (x[1], x[0]))
     split_rdd_clean = split_rdd_clean.sortByKey(ascending = False)
     split_rdd_clean = split_rdd_clean.map(lambda x: (x[1], x[0]))
+    split_rdd_clean.coalesce(1).saveAsTextFile(os.path.join(output_data, "Analysis/wordcount"))
 
 
 def create_spark_session():
