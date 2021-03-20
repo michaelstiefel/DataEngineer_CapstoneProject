@@ -43,4 +43,4 @@ decision dates from the ecb website
 
 ## Basic analysis
 
-![This image]("tweet_time_series.png")
+![This image](tweet_time_series.png)
