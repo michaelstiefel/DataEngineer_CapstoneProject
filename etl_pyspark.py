@@ -46,7 +46,7 @@ def process_tweets(spark, input_data, output_data):
        - output_data: path to store data
     """
 
-    # Avoid schema while reading input for now 
+    # Avoid schema while reading input for now
     #tweet_schema = StructType([
     #StructField("user.id", IntegerType(), False),
     #StructField("user.created_at", StringType(), False), #"DateType"
@@ -153,7 +153,7 @@ def process_events(spark, input_data, output_data):
 
     event_file= os.path.join(input_data + "/ecb_event_data.csv")
 
-    event_df = spark.read.csv(event_file)
+    event_df = spark.read.csv(event_file, header = True)
 
     # Write user table to output bucket
     event_df.write.parquet(os.path.join(output_data, "Events"), 'overwrite')
