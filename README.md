@@ -29,7 +29,41 @@ the speeches of ECB policymakers (taken from a data set provided by the ECB).
 
 ## Overview of files
 
+- capstone_project.default.cfg
 
+This file contains the template with the necessary AWS keys and bucket
+information.
+
+- create_monetary_event_database.py
+
+This file downloads the ECB data set of speeches, combines it with the data set
+of monetary policy decisions created below and uploads it to S3
+
+- etl_pyspark.py
+
+This file runs the ETL pipeline to transform the raw data from tweets and events.
+It puts the data as parquet files into an S3 output bucket.
+
+- read_monetary_policy_decisions.py
+
+This file reads the dates of all ECB monetary policy decisions from its homepage.
+
+- timeline_pyspark.py
+
+This file creates the timeline of the daily number of English tweets to create
+the file tweet_time_series.png
+
+- tweet_time_series.png
+
+The timeline of the daily number of English tweets.
+
+- wordcount.txt
+
+The 200 hundred most often used English words and how often they have been used. 
+
+- wordcount_pyspark.py
+
+This file creates the wordcount of the 200 hundred most often used English words.
 
 ## How to use this repository
 
@@ -43,4 +77,16 @@ decision dates from the ecb website
 
 ## Basic analysis
 
+After running the ETL pipeline and having created the data sets, some basic analysis is done to illustrate the data set and show the connection between events and tweets.
+The file timeline_pyspark.py creates the following image:
+
 ![This image](tweet_time_series.png)
+
+The image above shows the number of English tweets obtained per day on the left axis. The vertical, dashed lines in red denote the monetary policy decisions of the
+ECB. Clearly, on days with monetary policy decisions, the number of tweets is
+higher than on other dates, showing that the decisions are communicated and discussed on Twitter. The maximum number of tweets, however, is on January 13th,
+when the ECB released a press statement with the preliminary results of its public consultation about the introduction of a digital euro.
+
+The file wordcount_pyspark.py ranks the top 200 words and how often they were used
+in English tweets. Stopwords and punctuation have been removed. The results can be found
+in the text file wordcount.txt.
