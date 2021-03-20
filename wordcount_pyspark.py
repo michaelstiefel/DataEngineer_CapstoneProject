@@ -32,7 +32,11 @@ stopword_list = stopwords.words('english') + punct
 
 
 def count_words(spark, input_data, output_data, stopwords = stopword_list):
-
+    """
+    This function takes the spark object and the input and output s3 buckets as well as a list of
+    stopwords. It then creates a textfile with a list of the most common words in the
+    tweets and saves this object to the "analysis folder" in the s3 bucket.
+    """
     tweets = spark.read.parquet(os.path.join(input_data, "Tweets"))
     tweets = tweets.filter(tweets.tweet_lang == "en")
     tweets = tweets.withColumn("all_text", F.when(tweets['tweet_extended_text'].isNull(), tweets['tweet_text']) .otherwise(tweets['tweet_extended_text']))

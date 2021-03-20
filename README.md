@@ -20,3 +20,6 @@ can always be updated again.
 the .cfg file
 2. Run read_monetary_policy_decisions.py locally to scrape dates for the monetary policy
 decision dates from the ecb website
+3. Run create_monetary_event database which creates a data set from the monetary policy decision dates and speeches from ecb council members
+4. Create EMR cluster on it, copy etl_pyspark.py and the cfg. file onto the cluster
+5. Run etl_pyspark.py on cluster
