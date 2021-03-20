@@ -15,7 +15,6 @@ move_to_another_s3_bucket.py
 term_frequency.py
 test_with_different_bucket.py
 time_series_plot.py
-tweet_time_series.png
 download_ecb_speeches.py
 read_analysis_output.py
 
