@@ -16,6 +16,15 @@ on the S3 output bucket. This repository also contains the files which create
 this data set of monetary policy events which can optionally be executed to
 obtain the latest data.
 
+## Intended Usage
+
+Please look at "How to use this repository" below for a step by step guide.
+
+The input data in the S3 input bucket will be updated every week with new tweets
+copied automatically from an EC2 instance (the Twitter Stream is outside of this
+project and not in this repository). The etl pipeline in this repository can then
+be run on demand to process the data and create analysis.
+
 ## Data
 
 There are two main data sources:
@@ -59,21 +68,61 @@ The timeline of the daily number of English tweets.
 
 - wordcount.txt
 
-The 200 hundred most often used English words and how often they have been used. 
+The 200 hundred most often used English words and how often they have been used.
 
 - wordcount_pyspark.py
 
 This file creates the wordcount of the 200 hundred most often used English words.
 
+## Data dictionary
+
+The ETL pipeline creates three spark dataframes Tweets, Users and Events (not strictly
+in STAR format but useful for the later applications).
+
+The variables in the Spark dataframes are:  
+
+Tweets:
+
+- tweet_id
+- tweet_created_at
+- tweet_lang
+- tweet_text
+- tweet_extended_text
+- quoted_status_text
+- quoted_status_extended_text
+- user_id
+- retweeted_user_id
+- quoted_user_id
+
+
+User:
+
+- user_id
+- user_created_at
+- user_screen_name
+- user_verified
+- user_description
+- user_followers_count
+- user_friends_count (i.e. this twitter user is following # users on Twitter ("friends"))
+
+
+Events:
+
+- date
+- type
+- speakers
+
+
 ## How to use this repository
 
 1. Add AWS access keys and secrets as well as the bucket information and e-mail to
 the .cfg file
-2. Run read_monetary_policy_decisions.py locally to scrape dates for the monetary policy
+2. (Optional) Run read_monetary_policy_decisions.py locally to scrape dates for the monetary policy
 decision dates from the ecb website
-3. Run create_monetary_event database which creates a data set from the monetary policy decision dates and speeches from ecb council members
+3. (Optional) Run create_monetary_event database which creates a data set from the monetary policy decision dates and speeches from ecb council members
 4. Create EMR cluster on it, copy etl_pyspark.py and the cfg. file onto the cluster
-5. Run etl_pyspark.py on cluster
+5. Run etl_pyspark.py on cluster. This creates the parquet files.
+6. (Optional) Run wordcount_pyspark.py or timeline_pyspark.py to create the intermediary output files.
 
 ## Basic analysis
 
