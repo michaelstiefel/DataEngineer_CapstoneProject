@@ -74,6 +74,12 @@ The 200 hundred most often used English words and how often they have been used.
 
 This file creates the wordcount of the 200 hundred most often used English words.
 
+- run_data_quality_checks.py
+
+This file reads in the output parquet files as Spark data frames and tests
+whether they contain all the necessary columns, i.e. whether they have been
+correctly read in by the ETL pipeline.
+
 ## Data dictionary
 
 The ETL pipeline creates three spark dataframes Tweets, Users and Events (not strictly
@@ -122,7 +128,8 @@ decision dates from the ecb website
 3. (Optional) Run create_monetary_event database which creates a data set from the monetary policy decision dates and speeches from ecb council members
 4. Create EMR cluster on it, copy etl_pyspark.py and the cfg. file onto the cluster
 5. Run etl_pyspark.py on cluster. This creates the parquet files.
-6. (Optional) Run wordcount_pyspark.py or timeline_pyspark.py to create the intermediary output files.
+6. Run run_data_quality_checks to verify that the data has been correctly loaded and transformed.
+7. (Optional) Run wordcount_pyspark.py or timeline_pyspark.py to create the intermediary output files.
 
 ## Basic analysis
 
