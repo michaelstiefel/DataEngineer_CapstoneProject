@@ -58,9 +58,11 @@ def check_users(spark, data):
     for colname in user_cols_to_contain:
         helper_users += check_col_not_in_df(users, colname)
     if helper_users > 0:
-        return "Users df did not pass data quality check"
+        print("Users df did not pass data quality check")
+        assert False
     if helper_users == 0:
-        return "Users df did pass data quality check"
+        print("Users df did pass data quality check")
+        assert True
 
 
 
@@ -81,9 +83,11 @@ def check_tweets(spark, data):
     for colname in tweets_cols_to_contain:
         helper_tweets += check_col_not_in_df(tweets, colname)
     if helper_tweets > 0:
-        return "Tweets df did not pass data quality check"
+        print("Tweets df did not pass data quality check")
+        assert False
     if helper_tweets == 0:
-        return "Tweets df passed data quality check"
+        print("Tweets df passed data quality check")
+        assert True
 
 def check_events(spark, data):
     """
@@ -99,9 +103,11 @@ def check_events(spark, data):
     for colname in events_cols_to_contain:
         helper_events += check_col_not_in_df(events, colname)
     if helper_events > 0:
-        return "Events df did not pass data quality check"
+        print("Events df did not pass data quality check")
+        assert False
     if helper_events == 0:
-        return "Events df passed data quality check"
+        print("Events df passed data quality check")
+        assert True
 
 def main():
     """

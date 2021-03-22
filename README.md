@@ -40,7 +40,7 @@ with adding scheduled triggers (for example, in Airflow).
 With the output data of the ETL pipeline, it is possible for several
 or even hundred users to access and use the parquet files in the output bucket.
 It is not assumed and not recommended that several users run the ETL pipeline
-since this would overwrite previous files in the output bucket. 
+since this would overwrite previous files in the output bucket.
 
 ## Data
 
@@ -109,6 +109,13 @@ This file reads in the output parquet files as Spark data frames and tests
 whether they contain all the necessary columns, i.e. whether they have been
 correctly read in by the ETL pipeline.
 
+- run_data_quality_checks_2.py
+
+This file reads in the output parquet files as Spark data frames and tests
+whether the id column always contain integers and not nulls. This is an easy but
+important data quality check since those columns can never be empty (each
+tweet and user contain ids) and should be integers.
+
 ## Data dictionary
 
 The ETL pipeline creates three spark dataframes Tweets, Users and Events with
@@ -155,7 +162,7 @@ decision dates from the ecb website
 3. (Optional) Run create_monetary_event database which creates a data set from the monetary policy decision dates and speeches from ecb council members
 4. Create EMR cluster on it, copy etl_pyspark.py and the cfg. file onto the cluster
 5. Run etl_pyspark.py on cluster. This creates the parquet files.
-6. Run run_data_quality_checks to verify that the data has been correctly loaded and transformed.
+6. Run run_data_quality_checks.py (and run_data_quality_checks_2.py) to verify that the data has been correctly loaded and transformed.
 7. (Optional) Run wordcount_pyspark.py or timeline_pyspark.py to create the intermediary output files.
 
 ## Basic analysis
