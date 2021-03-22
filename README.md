@@ -7,7 +7,7 @@ the European Central Bank (ECB) streamed from the Twitter API and a data set of
 events related to ECB monetary policy taken from the ECB's homepage.
 
 To allow a combined analysis of the data, the project develops an ETL pipeline
-which loads raw .json files containing tweets from an S3 input bucket.
+in PySpark on AWS EMR. At first, it loads raw .json files containing tweets from an S3 input bucket.
 The tweets are cleaned and transformed and then saved as a parquet on another
 S3 output bucket.
 
@@ -16,14 +16,31 @@ on the S3 output bucket. This repository also contains the files which create
 this data set of monetary policy events which can optionally be executed to
 obtain the latest data.
 
-## Intended Usage
+This pipeline is the beginning for an advanced analysis of tweets using tools
+from natural language processing and machine learning. Since the data is still
+collected and will eventually grow big, the project is set up in AWS EMR
+to ensure functionality once the data has grown very large.
+
+## Intended Usage / Answers to reviewer scenarios:
 
 Please look at "How to use this repository" below for a step by step guide.
 
 The input data in the S3 input bucket will be updated every week with new tweets
 copied automatically from an EC2 instance (the Twitter Stream is outside of this
-project and not in this repository). The etl pipeline in this repository can then
+project and not in this repository). The ETL pipeline in this repository can then
 be run on demand to process the data and create analysis.
+
+Since the pipeline is based on a Spark cluster using AWS EMR, the project can be
+easily scaled up to bigger data, such as an 100% data increase (for example, by
+adding more worker notes).
+
+While the pipeline is triggered manually at the moment, there would be no issue
+with adding scheduled triggers (for example, in Airflow).
+
+With the output data of the ETL pipeline, it is possible for several
+or even hundred users to access and use the parquet files in the output bucket.
+It is not assumed and not recommended that several users run the ETL pipeline
+since this would overwrite previous files in the output bucket. 
 
 ## Data
 
@@ -35,6 +52,18 @@ obtained from the Twitter API
 2) An S3 bucket containing monetary policy events. Those monetary policy events
 comprise the ECB monetary policy decisions (taken from the ECB homepage) and
 the speeches of ECB policymakers (taken from a data set provided by the ECB).
+
+The ETL pipeline creates three spark dataframes Tweets, Users and Events (not strictly
+in STAR format but useful for the later applications). The later applications
+which are possible with this data format center around the following topics:
+- Analysis of tweets (for example, sentiment analysis): A data frame of tweets
+is readily available in parquet including basic metadata.
+- Analysis of users (who is tweeting, what is the background of the users,
+  how informed are they (as proxied by user description, verified account,
+  or number of followers who trust this user)
+- Combination of tweet activity with events (as shown below in the simple timeline
+  of tweets with event activity)
+
 
 ## Overview of files
 
@@ -82,10 +111,8 @@ correctly read in by the ETL pipeline.
 
 ## Data dictionary
 
-The ETL pipeline creates three spark dataframes Tweets, Users and Events (not strictly
-in STAR format but useful for the later applications).
-
-The variables in the Spark dataframes are:  
+The ETL pipeline creates three spark dataframes Tweets, Users and Events with
+the following associated variables,
 
 Tweets:
 
